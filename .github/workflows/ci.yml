@@ -26,6 +26,9 @@ jobs:
     needs: build-and-test
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
 
@@ -39,4 +42,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/electrobike/api:${{ github.sha }}
+          tags: ghcr.io/${{ github.repository_owner }}/electrobike-api:${{ github.sha }}
