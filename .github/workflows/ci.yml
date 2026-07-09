@@ -42,4 +42,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/electrobike-api:${{ github.sha }}
+          tags: ghcr.io/yussefben/electrobike-api:${{ github.sha }}
