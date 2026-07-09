@@ -1,0 +1,24 @@
+{
+  "name": "electrobike-api",
+  "version": "1.0.0",
+  "description": "API de réservation de vélos électriques — mini-projet fil rouge Master 1 (Agile & DevOps)",
+  "main": "src/server.js",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "jest --coverage",
+    "lint": "eslint src tests"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.12.0",
+    "redis": "^4.7.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.5.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}

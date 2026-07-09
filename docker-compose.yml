@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - USE_DATABASE=true
+      - DATABASE_URL=postgres://user:pass@db:5432/electrobike
+      - REDIS_URL=redis://cache:6379
+    depends_on:
+      - db
+      - cache
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=electrobike
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      # Ce script est exécuté automatiquement par l'image postgres au 1er démarrage.
+      - ./src/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  cache:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  db_data:
