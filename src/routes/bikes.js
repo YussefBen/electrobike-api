@@ -10,6 +10,7 @@ const router = express.Router();
  * Correspond à la user story :
  *   "En tant qu'utilisateur, je veux voir sur une carte les vélos disponibles
  *    autour de moi, afin de choisir le plus proche."
+ * Ajout d'un commentaire test pour l'exécution d'un build
  */
 router.get("/", async (req, res, next) => {
   try {
