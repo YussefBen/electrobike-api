@@ -1,17 +1,14 @@
 // Pipeline Jenkins equivalent au workflow GitHub Actions (voir guide ElectroBike).
-// Prerequis Jenkins : outil NodeJS nomme 'Node20', credentials 'dockerhub-credentials'.
+// Prerequis Jenkins : outil NodeJS nomme 'Node20', credentials 'dockerhub-credentials', 'staging-ssh-key'.
 pipeline {
   agent any
-
   tools {
     nodejs 'Node20'
   }
-
   environment {
     IMAGE_NAME = "jessicad03/electrobike-api"
     IMAGE_TAG  = "${env.GIT_COMMIT ? env.GIT_COMMIT.take(7) : 'latest'}"
   }
-
   stages {
     stage('Checkout') {
       steps { checkout scm }
@@ -43,8 +40,19 @@ pipeline {
         }
       }
     }
+    stage('Deploy to staging') {
+      when { branch 'main' }
+      steps {
+        sshagent(credentials: ['staging-ssh-key']) {
+          sh '''
+          ssh -o StrictHostKeyChecking=no deploy@staging \
+          "docker pull jessicad03/electrobike-api:latest && \
+          docker compose -f /opt/electrobike/docker-compose.yml up -d"
+          '''
+        }
+      }
+    }
   }
-
   post {
     success { echo "Build reussi : ${IMAGE_NAME}:${IMAGE_TAG}" }
     failure { echo "Le pipeline a echoue - voir les logs ci-dessus." }
