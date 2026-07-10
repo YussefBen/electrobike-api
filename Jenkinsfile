@@ -8,7 +8,7 @@ pipeline {
   }
 
   environment {
-    IMAGE_NAME = "yusben/electrobike-api"
+    IMAGE_NAME = "jessicad03/electrobike-api"
     IMAGE_TAG  = "${env.GIT_COMMIT ? env.GIT_COMMIT.take(7) : 'latest'}"
   }
 
